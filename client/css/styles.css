@@ -1,0 +1,13 @@
+.appView{
+  border: 5px dotted blue;
+
+}
+.playerView{
+  border: 1px solid red;
+}
+.libraryView {
+  border: 3px solid black;
+}
+.libraryEntryView{
+  color: red;
+}
