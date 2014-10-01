@@ -2,30 +2,36 @@
 var SongQueue = Songs.extend({
 
   initialize: function(){
-    this.on('ended', function(song){
-      console.log('Song Queue Ended');
-      this.removeFromQueue(song);
-      console.log(this.length, this);
-    }, this);
+    this.on( 'add', this.enqueue, this );
+    this.on( 'dequeue', this.dequeue, this );
+    this.on( 'ended', this.playNext, this );
   },
-  addToQueue: function(song){
-    this.add(song);
-    if (this.length === 1){
+
+  enqueue: function(song){
+    if( this.length === 1 ){
       this.playFirst();
     }
-    return this;
   },
+
+  dequeue: function(song){
+    if( this.at(0) === song ){
+      this.playNext();
+    } else {
+      this.remove(song);
+    }
+  },
+
+  playNext: function(){
+    this.shift();
+    if( this.length >= 1 ){
+      this.playFirst();
+    } else {
+      this.trigger('stop');
+    }
+  },
+
   playFirst: function(){
     this.at(0).play();
-    return this;
-  },
-  removeFromQueue: function(song){
-    this.remove(song);
-    if ( this.length > 0 ){
-      this.playFirst();
-      console.log("Removed Song and Played Song");
-    }
-    return this;
   }
 
 });

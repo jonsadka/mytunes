@@ -26,12 +26,9 @@ describe('AppView', function() {
   describe('when the currently playing song changes', function() {
     it('updates current song in playerView', function(){
       var song = app.get('library').at(0);
-      var nextSong = app.get('library').at(1);
       expect(appView.playerView.model).to.not.equal(song);
       song.play();
       expect(appView.playerView.model).to.equal(song);
-      nextSong.play();
-      expect(appView.playerView.model).to.equal(nextSong);
     });
   });
 

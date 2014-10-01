@@ -23,7 +23,7 @@ describe('SongQueue', function() {
     describe('when it is the only song in the song queue', function() {
       it('plays it', function() {
         var songQueue = new SongQueue();
-        songQueue.addToQueue(songData1);
+        songQueue.add(songData1);
         expect(playSpy).to.have.been.called;
       });
     });
@@ -31,7 +31,7 @@ describe('SongQueue', function() {
     describe('when it is not the only song in the song queue', function() {
       it('does nothing', function() {
         var songQueue = new SongQueue(songData1);
-        songQueue.addToQueue(songData2);
+        songQueue.add(songData2);
         expect(playSpy).to.have.not.been.called;
       });
     });
@@ -39,18 +39,12 @@ describe('SongQueue', function() {
 
   describe('when a song ends', function() {
     it('removes the song from the queue', function() {
-      console.log("START TEST");
       var songQueue = new SongQueue([songData1, songData2]);
       song2 = songQueue.at(1);
       expect(songQueue.length).to.equal(2);
       songQueue.at(0).trigger('ended');
-      setTimeout( function(){
-        console.log('trigger ended');
-        expect(songQueue.length).to.equal(1);
-        expect(songQueue.at(0)).to.equal(song2);
-        console.log("END TEST");
-      }, 50);
-
+      expect(songQueue.length).to.equal(1);
+      expect(songQueue.at(0)).to.equal(song2);
     });
 
     describe('if there are any songs left in the queue', function() {
@@ -75,10 +69,8 @@ describe('SongQueue', function() {
       removeSpy = sinon.spy(SongQueue.prototype, 'remove');
       var songQueue = new SongQueue(songData1);
       songQueue.at(0).dequeue();
-      setTimeout(function(){
-        expect(removeSpy).to.have.been.called;
-        SongQueue.prototype.remove.restore();
-      },50);
+      expect(removeSpy).to.have.been.called;
+      SongQueue.prototype.remove.restore();
     });
   });
 
